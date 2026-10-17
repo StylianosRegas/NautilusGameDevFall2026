@@ -249,7 +249,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -448,7 +448,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: '::'
   health: 0
   ammo: 5
-  speed: 5
+  speedValue: 5
+  Torpedo: {fileID: 1626258543346050478, guid: e6d1df2f1656e7b4fb969905b178602f, type: 3}
 --- !u!50 &1250733595
 Rigidbody2D:
   serializedVersion: 5
@@ -535,7 +536,7 @@ GameObject:
   - component: {fileID: 1325924812}
   m_Layer: 0
   m_Name: OtherSub_0
-  m_TagString: Untagged
+  m_TagString: HidingSpot
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -654,7 +655,7 @@ CircleCollider2D:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1250733593}
   - {fileID: 1325924811}
+  - {fileID: 519420032}
