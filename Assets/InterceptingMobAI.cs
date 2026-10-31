@@ -1,4 +1,5 @@
 using Pathfinding;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class InterceptingMobAI : MonoBehaviour
@@ -30,6 +31,8 @@ public class InterceptingMobAI : MonoBehaviour
     Vector2 targetVelocity;
     Vector2 lastTargetPos;
     Vector2 interceptPoint;
+    public float damageCooldown = 3.5f;
+    private float cooldownTimer = 0f;
 
     void Start()
     {
@@ -172,5 +175,33 @@ public class InterceptingMobAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(interceptPoint, 0.3f);
         Gizmos.DrawLine(transform.position, interceptPoint);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (target)
+        {
+            Attack();
+        }
+    }
+
+    private void OnCollisionStay2D(Collision collision)
+    {
+        cooldownTimer -= Time.deltaTime;
+        if (target && (cooldownTimer == 0))
+        {
+            Attack();
+            cooldownTimer = damageCooldown;
+        }
+    }
+
+    private void OnCollisionExit2D(Collision collision)
+    {
+        cooldownTimer = damageCooldown;
+    }
+
+    void Attack()
+    { 
+        
     }
 }

@@ -1,17 +1,20 @@
 using UnityEngine;
 using Pathfinding;
 
-public class StarfingMobAi: MonoBehaviour
+public class StarfingMobAi : MonoBehaviour
 {
     public Transform target;
     public float speed = 50f;
+    public float maxSpeed = 5f;
     public float nextWayPointDistance = 3f;
     public Transform GFX;
+
     Path path;
     int currentWaypoint = 0;
     bool reachedEndOfPath = false;
     Seeker seeker;
     Rigidbody2D rb;
+    bool inRange = false;
 
     void Start()
     {
@@ -38,6 +41,8 @@ public class StarfingMobAi: MonoBehaviour
 
     void FixedUpdate()
     {
+        UpdateGraphics();
+
         if (path == null)
         {
             return;
@@ -46,6 +51,7 @@ public class StarfingMobAi: MonoBehaviour
         if (currentWaypoint >= path.vectorPath.Count)
         {
             reachedEndOfPath = true;
+            ClampSpeed();
             return;
         }
         else
@@ -54,10 +60,10 @@ public class StarfingMobAi: MonoBehaviour
         }
 
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
-
         Vector2 force = direction * speed * Time.fixedDeltaTime;
 
         rb.AddForce(force);
+        ClampSpeed();
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
 
@@ -65,7 +71,15 @@ public class StarfingMobAi: MonoBehaviour
         {
             currentWaypoint++;
         }
+    }
 
+    void ClampSpeed()
+    {
+        rb.linearVelocity = Vector2.ClampMagnitude(rb.linearVelocity, maxSpeed);
+    }
+
+    void UpdateGraphics()
+    {
         Vector2 toTarget = (Vector2)target.position - rb.position;
         float angle = Mathf.Atan2(toTarget.y, toTarget.x) * Mathf.Rad2Deg;
 
@@ -79,5 +93,28 @@ public class StarfingMobAi: MonoBehaviour
         {
             GFX.localScale = new Vector3(.1f, .1f, .1f);
         }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (target)
+        { 
+            inRange = true;
+        }
+        Shoot();
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        if (target)
+        {
+            inRange = false;
+        }
+    }
+
+
+    void Shoot()
+    { 
+        //make a bullet spawn and shoot it where the strafer is facing
     }
 }
