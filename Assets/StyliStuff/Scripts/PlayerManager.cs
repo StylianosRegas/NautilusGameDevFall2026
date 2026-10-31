@@ -95,6 +95,11 @@ public class PlayerManager : MonoBehaviour
         
     }
 
+    public void TakeDamage()
+    {
+        --health;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
 
