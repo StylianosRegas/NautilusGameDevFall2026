@@ -8,6 +8,7 @@ public class PlayerManager : MonoBehaviour
 {
     public int health = 5;
     public int ammo = 5;
+    public int pagesCollected;
     public float speedValue = 5f;
     private float speed;
     private bool isRotate = true;
@@ -159,6 +160,16 @@ public class PlayerManager : MonoBehaviour
             
 
             --ammo;
+            
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Page"))
+        {
+            pagesCollected++;
+            Destroy(collision.gameObject);
         }
     }
 
